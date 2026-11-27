@@ -105,6 +105,8 @@ legend{font-weight:700;font-size:.92rem;margin-bottom:.6rem}
 .chip input:focus-visible+span{outline:3px solid var(--lime2);outline-offset:2px}
 .hp{position:absolute;left:-9999px}
 .status:empty{display:none}
+.captcha:empty{display:none}
+@media (max-width:379px){.captcha{scale:.85;transform-origin:left}}
 .status{font-weight:700;color:var(--lime2)}.status.error{color:#ffb4a8}
 
 .promo{padding:3rem 0}

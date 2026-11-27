@@ -8,7 +8,7 @@ Website by [Michiana.dev](https://michiana.dev).
 
 - Hand-written HTML, CSS and a little JavaScript. No framework and no dependencies.
 - Hosted on Netlify. Every push to `main` deploys the `public/` folder.
-- The estimate form uses Netlify Forms. The notification email is set in the Netlify dashboard, so it is not stored in this repo.
+- The estimate form uses Netlify Forms with spam filtering, a honeypot field and reCAPTCHA. The notification email is set in the Netlify dashboard, so it is not stored in this repo.
 - AVIF and WebP images in several sizes, structured data, `sitemap.xml`, `robots.txt` and `llms.txt`.
 
 ## Editing

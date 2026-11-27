@@ -106,7 +106,7 @@ area_blocks = "".join(f'''
         <ul class="towns">{"".join(f"<li>{e(t)}</li>" for t in ts)}</ul></div>''' for s, ts in AREAS.items())
 
 faqs = "".join(f'<details class="reveal" name="faq"><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in FAQS)
-checks = "".join(f'<label class="chip"><input type="checkbox" name="services[]" value="{e(n)}"><span>{e(n)}</span></label>' for n in ALL_SERVICES)
+checks = "".join(f'<label class="chip"><input type="checkbox" name="services[]" value="{e(n)}"><span>{e(n)}</span></label>' for n in ALL_SERVICES + ["Other"])
 town_opts = "".join(f'<option value="{e(t)}">' for t in ALL_TOWNS)
 year = datetime.date.today().year
 AD = "https://michiana.dev/?utm_source=sebaspros&amp;utm_medium=referral&amp;utm_campaign="
@@ -241,7 +241,7 @@ page = f'''<!doctype html>
         <a class="btn btn-ghost" href="{e(FACEBOOK)}" target="_blank" rel="noopener">{ICON["fb"]}Facebook</a>
       </div>
     </div>
-    <form class="form" name="estimate" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field">
+    <form class="form" name="estimate" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-netlify-recaptcha="true">
       <input type="hidden" name="form-name" value="estimate">
       <input type="hidden" name="subject" value="New estimate request from the Sebas Pros website">
       <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
@@ -255,6 +255,7 @@ page = f'''<!doctype html>
       </div>
       <fieldset><legend>What do you need?</legend><div class="chips">{checks}</div></fieldset>
       <label><span>Anything else? <small>(optional)</small></span><textarea name="message" rows="4" maxlength="2000"></textarea></label>
+      <div class="captcha" data-netlify-recaptcha="true"></div>
       <button class="btn" type="submit">Request my free estimate</button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>

@@ -13,6 +13,13 @@ if (form) {
   const button = form.querySelector('button[type="submit"]');
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    // Netlify adds the reCAPTCHA widget at deploy time; its answer travels in this field.
+    const captcha = form.querySelector('[name="g-recaptcha-response"]');
+    if (captcha && !captcha.value) {
+      status.classList.add('error');
+      status.textContent = 'Please check the "I\'m not a robot" box.';
+      return;
+    }
     button.disabled = true;
     status.classList.remove('error');
     status.textContent = 'Sending…';
@@ -30,6 +37,7 @@ if (form) {
       status.textContent = 'Sorry, that did not send. Please call or text 574-360-5040.';
     } finally {
       button.disabled = false;
+      window.grecaptcha?.reset(); // each answer can only be used once
     }
   });
 }
