@@ -13,7 +13,7 @@ Website by [Michiana.dev](https://michiana.dev). I built this website free of ch
 
 ## Editing
 
-Text, services, towns and FAQs live in `scripts/build.py`. After changing them:
+The site is in English (`/`) and Spanish (`/es/`). Text, services, prices, towns and FAQs live in `scripts/build.py`, with the Spanish wording in `scripts/es.py`. After changing them:
 
 ```sh
 python3 scripts/build.py
