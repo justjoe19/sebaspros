@@ -2,7 +2,7 @@
 
 One-page website for a Michiana lawn care and leaf cleanup business. Call or text **574-360-5040** for a free estimate.
 
-Website by [Michiana.dev](https://michiana.dev).
+Website by [Michiana.dev](https://michiana.dev). I built this website free of charge for a young entrepreneur who is starting a lawn care business.
 
 ## How it works
 
