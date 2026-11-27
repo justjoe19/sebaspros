@@ -1,0 +1,10 @@
+# Original client files (large, unoptimized) stay local only
+/*.jpg
+/*.jpeg
+/*.mp4
+
+.DS_Store
+.netlify/
+.claude/
+.env
+__pycache__/
