@@ -2,6 +2,8 @@
 /*.jpg
 /*.jpeg
 /*.mp4
+# Documents saved into this folder are not part of the website
+*.pdf
 
 .DS_Store
 .netlify/

@@ -17,6 +17,20 @@ const text = document.documentElement.lang === 'es'
       failed: 'Sorry, that did not send. Please call or text 574-360-5040.',
     };
 
+// Phone menu: close it after choosing a section, tapping elsewhere or pressing Escape.
+const menu = document.querySelector('.menu');
+if (menu) {
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target) || event.target.closest('a')) menu.open = false;
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.open) {
+      menu.open = false;
+      menu.querySelector('summary').focus();
+    }
+  });
+}
+
 // Switching language keeps the visitor in the same section of the page.
 document.querySelectorAll('.lang a').forEach((link) => {
   link.addEventListener('click', (event) => {
@@ -65,13 +79,30 @@ if (form) {
     form.hidden = false;
     form.elements['name'].focus();
   });
+  // Netlify puts Google's reCAPTCHA inside a <template>. Load it only when the visitor
+  // gets close to the form, so it does not slow down the rest of the page.
+  const holder = form.querySelector('.captcha');
+  const loadCaptcha = () => {
+    const template = holder.querySelector('template');
+    if (!template) return;
+    holder.append(document.importNode(template.content, true));
+    template.remove();
+  };
+  const nearForm = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    loadCaptcha();
+    nearForm.disconnect();
+  }, { rootMargin: '600px' });
+  nearForm.observe(form);
+  form.addEventListener('focusin', loadCaptcha, { once: true });
   const status = form.querySelector('.status');
   const button = form.querySelector('button[type="submit"]');
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    // Netlify adds the reCAPTCHA widget at deploy time; its answer travels in this field.
-    const captcha = form.querySelector('[name="g-recaptcha-response"]');
-    if (captcha && !captcha.value) {
+    loadCaptcha();
+    // The reCAPTCHA answer travels in a field that Google adds to its widget.
+    const answer = form.querySelector('[name="g-recaptcha-response"]');
+    if (holder.querySelector('.g-recaptcha') && !answer?.value) {
       status.classList.add('error');
       status.textContent = text.captcha;
       return;
@@ -97,7 +128,8 @@ if (form) {
       status.textContent = text.failed;
     } finally {
       button.disabled = false;
-      window.grecaptcha?.reset(); // each answer can only be used once
+      // Each answer can only be used once.
+      if (holder.querySelector('iframe')) window.grecaptcha?.reset();
     }
   });
 }

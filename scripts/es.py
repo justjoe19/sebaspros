@@ -17,6 +17,7 @@ ES = {
     # navigation
     "Skip to content": "Saltar al contenido",
     "Main": "Principal",
+    "Menu": "Menú",
     "Services": "Servicios",
     "Pricing": "Precios",
     "Our Work": "Trabajos",
@@ -27,7 +28,7 @@ ES = {
     # hero
     "Freshly mowed yard with mature trees in a Michiana neighborhood on a sunny fall day":
         "Patio recién cortado con árboles grandes en un vecindario de Michiana en un día soleado de otoño",
-    "Now booking fall leaf cleanups": "Agendando limpiezas de hojas de otoño",
+    "Now booking in South Bend and Michiana": "Agendando en South Bend y Michiana",
     "Leaf cleanup &amp; lawn care in <em>South Bend</em>": "Limpieza de hojas y césped en <em>South Bend</em>",
     "Professional, affordable leaf cleanups, plus mowing, weed trimming, edging and bush trimming. Serving South Bend, Mishawaka, Elkhart and surrounding Michiana towns.":
         "Limpieza de hojas profesional y económica, además de corte de césped, desmalezado, perfilado de bordes y poda de arbustos. Servimos South Bend, Mishawaka, Elkhart y los pueblos cercanos de Michiana.",

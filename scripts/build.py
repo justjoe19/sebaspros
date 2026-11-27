@@ -70,6 +70,8 @@ FAQS = [
 ]
 
 e = html.escape
+# styles.css is copied into the home pages; the small thank-you and 404 pages link to it.
+CSS = (pathlib.Path(__file__).resolve().parent.parent / "public" / "styles.css").read_text()
 ALL_TOWNS = [f"{t}, {'IN' if s == 'Indiana' else 'MI'}" for s, ts in AREAS.items() for t in ts]
 ALL_SERVICES = [n for _, _, _, items in SERVICES for n, _ in items]
 
@@ -82,6 +84,16 @@ def picture(name, alt, widths, sizes, w, h, cls="", eager=False):
             f'<img src="/img/{name}-{widths[-1]}.webp" alt="{e(alt)}" width="{w}" height="{h}" {load}></picture>')
 
 P = [480, 800, 1200]
+LOGO_ALT_WIDTHS = [240, 360, 640, 960]
+
+
+def hero_set(ext):
+    return ", ".join(f"/img/hero-{w}.{ext} {w}w" for w in (640, 1024, 1600, 2048))
+
+
+def logo_set(ext):
+    return ", ".join(f"/img/logo-{w}.{ext} {w}w" for w in LOGO_ALT_WIDTHS)
+
 ICON = {
  "fb": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h-2a4 4 0 0 0-4 4v3H6v4h3v7h4v-7h3l1-4h-4V7.5A.5.5 0 0 1 13.5 7H16V3Z"/></svg>',
  "phone": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>',
@@ -98,7 +110,7 @@ def render(lang):
 
     def lang_link(code, href, label, name):
         current = ' class="active" aria-current="true"' if code == lang else ""
-        return f'<a href="{href}" hreflang="{code}" lang="{code}" aria-label="{name}"{current}>{label}</a>'
+        return f'<a href="{href}" hreflang="{code}" lang="{code}" aria-label="{label}, {name}"{current}>{label}</a>'
 
     prefix = "/es/" if lang == "es" else "/"
     url = SITE + prefix
@@ -158,6 +170,7 @@ def render(lang):
     year = datetime.date.today().year
     AD = "https://michiana.dev/?utm_source=sebaspros&amp;utm_medium=referral&amp;utm_campaign="
 
+    menu_links = f'''<a href="#services">{t('Services')}</a><a href="#pricing">{t('Pricing')}</a><a href="#work">{t('Our Work')}</a><a href="#areas">{t('Areas')}</a><a href="#faq">{t('FAQ')}</a>'''
     page = f'''<!doctype html>
 <html lang="{"es" if lang == "es" else "en-US"}">
 <head>
@@ -195,25 +208,32 @@ def render(lang):
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/jakarta.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+<style>{CSS}</style>
 <script src="/main.js" defer></script>
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
 <a class="skip" href="#main">{t('Skip to content')}</a>
 <header class="nav">
-  <a class="brand" href="#top" aria-label="{t("{name} home")}"><img src="/img/logo-360.webp" alt="" width="360" height="189"></a>
-  <nav aria-label="{t("Main")}"><a href="#services">{t('Services')}</a><a href="#pricing">{t('Pricing')}</a><a href="#work">{t('Our Work')}</a><a href="#areas">{t('Areas')}</a><a href="#faq">{t('FAQ')}</a></nav>
+  <a class="brand" href="#top" aria-label="{t("{name} home")}"><picture><source type="image/avif" srcset="/img/logo-240.avif"><img src="/img/logo-240.webp" alt="" width="240" height="126"></picture></a>
+  <nav aria-label="{t("Main")}">{menu_links}</nav>
+  <details class="menu"><summary aria-label="{t("Menu")}"><span></span></summary><nav aria-label="{t("Menu")}">{menu_links}</nav></details>
   <div class="lang" role="group" aria-label="{t("Language selector")}">{lang_link("en", "/", "EN", "English")}<span aria-hidden="true">|</span>{lang_link("es", "/es/", "ES", "Español")}</div>
-  <a class="btn btn-sm" href="tel:{TEL}">{ICON["phone"]}<span>{PHONE}</span></a>
+  <a class="btn btn-sm" href="tel:{TEL}" aria-label="{t("Call {phone}")}">{ICON["phone"]}<span>{PHONE}</span></a>
 </header>
 
 <main id="main">
 <section class="hero" id="top">
-  {picture("hero", t("Freshly mowed yard with mature trees in a Michiana neighborhood on a sunny fall day"), [640, 1024, 1600, 2048], "100vw", 2048, 1536, "hero-bg", True)}
+  <picture class="hero-bg">
+    <source media="(max-width: 759px)" type="image/avif" srcset="/img/hero-m-640.avif 640w, /img/hero-m-900.avif 900w" sizes="100vw">
+    <source media="(max-width: 759px)" type="image/webp" srcset="/img/hero-m-640.webp 640w, /img/hero-m-900.webp 900w" sizes="100vw">
+    <source type="image/avif" srcset="{hero_set("avif")}" sizes="100vw">
+    <source type="image/webp" srcset="{hero_set("webp")}" sizes="100vw">
+    <img src="/img/hero-1600.webp" alt="{t("Freshly mowed yard with mature trees in a Michiana neighborhood on a sunny fall day")}" width="2048" height="1536" fetchpriority="high">
+  </picture>
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow"><span class="dot"></span>{t('Now booking fall leaf cleanups')}</p>
+      <p class="eyebrow"><span class="dot"></span>{t('Now booking in South Bend and Michiana')}</p>
       <h1>{t('Leaf cleanup &amp; lawn care in <em>South Bend</em>')}</h1>
       <p class="lead">{t('Professional, affordable leaf cleanups, plus mowing, weed trimming, edging and bush trimming. Serving South Bend, Mishawaka, Elkhart and surrounding Michiana towns.')}</p>
       <div class="actions">
@@ -222,7 +242,7 @@ def render(lang):
       </div>
       <ul class="ticks"><li>{t('Free estimates')}</li><li>{t('Locally owned')}</li><li>{t('Leaf hauling available')}</li></ul>
     </div>
-    <img class="hero-logo" src="/img/logo-960.webp" srcset="/img/logo-640.webp 640w, /img/logo-960.webp 960w" sizes="(min-width: 960px) 480px, 80vw" alt="{t("{name} logo")}" width="960" height="504">
+    <picture class="hero-logo"><source type="image/avif" srcset="{logo_set("avif")}" sizes="(min-width: 960px) 480px, 290px"><img src="/img/logo-640.webp" srcset="{logo_set("webp")}" sizes="(min-width: 960px) 480px, 290px" alt="{t("{name} logo")}" width="960" height="504" fetchpriority="high"></picture>
   </div>
 </section>
 
@@ -326,7 +346,7 @@ def render(lang):
       </div>
       <fieldset><legend>{t('What do you need?')}</legend><div class="chips">{checks}</div></fieldset>
       <label><span>{t("Anything else?")} <small>{t("(optional)")}</small></span><textarea name="message" rows="4" maxlength="2000"></textarea></label>
-      <div class="captcha" data-netlify-recaptcha="true"></div>
+      <div class="captcha"><template><div data-netlify-recaptcha="true"></div></template></div>
       <button class="btn" type="submit">{t('Request my free estimate')}</button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
@@ -353,7 +373,7 @@ def render(lang):
 
 <footer>
   <div class="wrap foot">
-    <img src="/img/logo-360.webp" alt="{NAME}" width="360" height="189" loading="lazy">
+    <picture><source type="image/avif" srcset="/img/logo-360.avif"><img src="/img/logo-360.webp" alt="{NAME}" width="360" height="189" loading="lazy"></picture>
     <p>{t("Leaf cleanup and lawn care across the Michiana area.")}<br>{t("Free estimates:")} <a href="tel:{TEL}">{PHONE}</a><br><a class="social" href="{e(FACEBOOK)}" target="_blank" rel="noopener">{ICON["fb"]}{t("Follow us on Facebook")}</a></p>
   </div>
   <div class="wrap foot-base">
@@ -417,6 +437,9 @@ llms = [f"# {NAME}", "", f"> {DESC.replace('{phone}', PHONE)}", "", f"- Phone (c
         f"- Website: {SITE}/", f"- Spanish version: {SITE}/es/", f"- Facebook: {FACEBOOK}", ""]
 for _, title, _, items in SERVICES:
     llms += [f"## {title}", ""] + [f"- {n}: {d}" for n, d in items] + [""]
+llms += ["## Links", "", f"- [Website]({SITE}/): services, prices and the free estimate form",
+         f"- [Sitio en español]({SITE}/es/): the same information in Spanish",
+         f"- [Facebook page]({FACEBOOK}): news and updates", ""]
 llms += ["## Starting prices", ""]
 for title, _, note, rows in PRICES:
     llms.append(f"- {title}: " + ", ".join(f"{size.lower()} {shown}" for size, _, shown in rows))

@@ -35,25 +35,224 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/jakarta.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+<style>@font-face{font-family:Jakarta;src:url(/fonts/jakarta.woff2) format("woff2");font-weight:200 800;font-display:swap}
+:root{--bg:#060906;--bg2:#0b110b;--card:#101810;--line:#ffffff17;--text:#f2f7ee;--muted:#a9b6a4;--lime:#9be821;--lime2:#c6ff5c;--radius:22px;--nav:76px;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav) + 8px);-webkit-text-size-adjust:100%}
+body{font:400 1.0625rem/1.65 Jakarta,system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:clip}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--lime2);outline-offset:3px}
+h1,h2,h3,h4{line-height:1.12;letter-spacing:-.025em;text-wrap:balance}
+h1{font-size:clamp(2.5rem,7vw,4.75rem);font-weight:800}
+h1 em{font-style:italic;background:linear-gradient(100deg,var(--lime2),#5fbf12);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.16em}
+h2{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:800;margin-bottom:1.5rem}
+h3{font-size:1.35rem}
+h4{font-size:1.02rem;letter-spacing:-.01em}
+p{text-wrap:pretty}
+.wrap{width:min(1160px,100% - 2.5rem);margin-inline:auto}
+.narrow{width:min(800px,100% - 2.5rem)}
+.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;z-index:99;background:var(--lime);color:#000;padding:.6rem 1rem;border-radius:8px}
+svg{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.nav{position:fixed;z-index:20;top:12px;left:50%;translate:-50% 0;width:min(1160px,100% - 1.5rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.5rem .6rem .5rem 1.1rem;border:1px solid var(--line);border-radius:999px;background:#070b07b8;backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}
+.brand img{width:92px}
+.menu summary{display:grid;place-items:center;width:44px;height:44px;border:1px solid #ffffff30;border-radius:50%;cursor:pointer;list-style:none}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary span,.menu summary span::before,.menu summary span::after{display:block;width:18px;height:2px;border-radius:2px;background:var(--text);content:"";position:relative}
+.menu summary span::before{position:absolute;top:-6px}.menu summary span::after{position:absolute;top:6px}
+.menu[open] summary{border-color:var(--lime)}
+.nav .menu nav{display:grid;position:absolute;inset:calc(100% + 8px) 0 auto 0;gap:0;padding:.5rem;border:1px solid var(--line);border-radius:var(--radius);background:#070b07;box-shadow:0 24px 50px -20px #000}
+.menu nav a{padding:.85rem 1rem;border-radius:12px;color:var(--text);text-decoration:none;font-weight:700}
+.menu nav a:hover{background:#ffffff0f}
+.nav>nav{display:none;gap:1.75rem;font-size:.95rem;font-weight:600}
+.nav>nav a{text-decoration:none;color:var(--muted)}.nav>nav a:hover{color:var(--text)}
+
+.lang{display:inline-flex;align-items:center;gap:2px;margin-left:auto;padding:3px;border:1px solid #9be82155;border-radius:999px;font-size:.8rem;font-weight:800;white-space:nowrap}
+.lang a{display:grid;place-items:center;min-width:44px;min-height:44px;border-radius:999px;color:var(--muted);text-decoration:none}
+.lang a:hover{color:var(--text)}
+.lang a.active{background:var(--lime);color:#081004}
+.lang span{color:#ffffff40;font-weight:400}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.7rem 1.5rem;border:1px solid transparent;border-radius:999px;background:linear-gradient(180deg,var(--lime2),var(--lime));color:#081004;font:800 1rem/1.2 Jakarta,system-ui,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 10px 30px -12px #9be821aa;transition:translate .2s,box-shadow .2s}
+.btn:hover{translate:0 -2px;box-shadow:0 16px 34px -12px #9be821cc}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn-sm{min-height:44px;padding:.5rem 1.1rem;font-size:.95rem}
+.btn-ghost{background:#ffffff0f;color:var(--text);border-color:#ffffff30;box-shadow:none;backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:var(--lime);box-shadow:none}
+
+.hero{position:relative;isolation:isolate;min-height:min(100svh,920px);display:grid;align-items:center;padding:calc(var(--nav) + 3rem) 0 4rem}
+.hero-logo img{width:100%}
+.hero-bg,.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#06090680,#06090640 35%,#060906b3 80%,var(--bg)),linear-gradient(90deg,#060906cc,#0609061a)}
+.hero-grid{display:grid;gap:2rem;align-items:center}
+.hero-logo{order:-1;width:min(380px,86%);margin-inline:auto;filter:drop-shadow(0 24px 40px #000c)}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem .95rem;margin-bottom:1.25rem;border:1px solid #9be82155;border-radius:999px;background:#0b1408cc;font-size:.82rem;font-weight:700;letter-spacing:.04em}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px #9be82133}
+.lead{margin:1.25rem 0 2rem;max-width:34rem;font-size:1.15rem;color:#dbe5d6}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem}
+.ticks{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:1.75rem;list-style:none;font-weight:600;font-size:.95rem}
+.ticks li::before{content:"✓";color:var(--lime);font-weight:800;margin-right:.45rem}
+
+.section{padding:clamp(4rem,9vw,7rem) 0}
+.alt{background:var(--bg2);border-block:1px solid var(--line)}
+.kicker{color:var(--lime);font-weight:800;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
+.intro{color:var(--muted);max-width:38rem;margin:-.5rem 0 2rem}
+
+.cards{display:grid;gap:1.25rem}
+.card{display:flex;flex-direction:column;gap:1.5rem;padding:clamp(1.4rem,3vw,2.25rem);border:1px solid var(--line);border-radius:var(--radius);background:radial-gradient(120% 70% at 0 0,#9be8211f,transparent 60%),var(--card)}
+.card-head{display:flex;gap:1rem;align-items:flex-start}
+.card-head p{color:var(--muted);font-size:.97rem;margin-top:.3rem}
+.icon{display:grid;place-items:center;width:54px;height:54px;border-radius:16px;background:var(--lime);color:#081004;font-size:1.5rem;flex:none}
+.card ul{list-style:none;flex:1}
+.card li{padding:.85rem 0 .85rem 2rem;border-top:1px solid var(--line);position:relative}
+.card li::before{content:"✓";position:absolute;left:.2rem;top:.8rem;color:var(--lime);font-weight:800}
+.card li p{color:var(--muted);font-size:.94rem}
+.prices{display:grid;gap:1.25rem;align-items:start}
+.price{padding:clamp(1.4rem,3vw,2rem);border:1px solid var(--line);border-top:3px solid var(--lime);border-radius:var(--radius);background:var(--card)}
+.price p{color:var(--muted);font-size:.95rem;margin:.3rem 0 1.1rem}
+.price dl div{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.8rem 0;border-top:1px solid var(--line)}
+.price dt{font-weight:600}
+.price dd{font-size:1.35rem;font-weight:800;color:var(--lime2);white-space:nowrap}
+.price-cta{margin-top:2rem}
+.link{color:var(--lime2);font-weight:800;text-decoration:none;align-self:flex-start;padding-block:.5rem}.link:hover{text-decoration:underline}
+
+figure{position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);background:var(--card)}
+figure picture,figure img{display:block;width:100%;height:100%;object-fit:cover}
+figure img{transition:scale .6s}figure:hover img{scale:1.04}
+.compare{display:grid;gap:1rem;margin-bottom:1rem}
+.compare figure{aspect-ratio:4/3}
+figcaption{position:absolute;left:1rem;top:1rem;padding:.3rem .9rem;border-radius:999px;background:#000b;backdrop-filter:blur(8px);font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+figcaption.after{background:var(--lime);color:#081004}
+.gallery{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:150px;gap:1rem}
+.gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2;grid-row:span 2}
+
+.about{display:grid;gap:2.5rem;align-items:center}
+.about p{color:var(--muted)}.about p+p{margin-top:1rem}
+.steps{list-style:none;counter-reset:s;display:grid;gap:1rem}
+.steps li{counter-increment:s;position:relative;padding:1.3rem 1.3rem 1.3rem 5rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
+.steps li::before{content:counter(s);position:absolute;left:1.3rem;top:1.3rem;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:2px solid var(--lime);color:var(--lime2);font-weight:800}
+
+.areas{display:grid;gap:2rem}
+.area h3{margin-bottom:1rem}
+.towns{display:flex;flex-wrap:wrap;gap:.55rem;list-style:none}
+.towns li{padding:.45rem .95rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.92rem;font-weight:600}
+
+details{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:.75rem}
+summary{display:flex;justify-content:space-between;gap:1rem;padding:1.1rem 1.3rem;font-weight:700;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--lime);font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"−"}
+details p{padding:0 1.3rem 1.2rem;color:var(--muted)}
+.nav .menu{order:1;margin:0;border:0;border-radius:0;background:none}
+.nav .menu summary{display:grid;place-items:center;justify-content:center;padding:0}
+.nav .menu summary::after{content:none}
+.nav>.btn{order:2}
+
+.contact{display:grid;gap:2.5rem;align-items:start}
+.big-phone{display:block;font-size:clamp(2.2rem,6vw,3.4rem);font-weight:800;color:var(--lime2);text-decoration:none;letter-spacing:-.03em;margin-bottom:1.2rem}
+.form{display:grid;gap:1.1rem;padding:clamp(1.25rem,3vw,2.25rem);border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:0 30px 60px -30px #000}
+.row{display:grid;gap:1.1rem}
+label{display:grid;gap:.35rem;font-weight:700;font-size:.92rem;min-width:0}
+small{font-weight:500;color:var(--muted)}
+input,textarea{width:100%;min-height:50px;padding:.75rem .95rem;border:1px solid #ffffff2b;border-radius:12px;background:#070b07;color:var(--text);font:500 1rem Jakarta,system-ui,sans-serif}
+input:focus,textarea:focus{border-color:var(--lime);outline:2px solid #9be82155;outline-offset:0}
+textarea{resize:vertical}
+fieldset{border:0;min-width:0}
+legend{font-weight:700;font-size:.92rem;margin-bottom:.6rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{display:block;position:relative;cursor:pointer}
+.chip input{position:absolute;opacity:0;width:100%;height:100%;min-height:0;cursor:pointer}
+.chip span{display:block;padding:.55rem .95rem;border:1px solid #ffffff2b;border-radius:999px;font-size:.88rem;font-weight:600;pointer-events:none}
+.chip input:checked+span{background:var(--lime);border-color:var(--lime);color:#081004}
+.chip input:focus-visible+span{outline:3px solid var(--lime2);outline-offset:2px}
+.hp{position:absolute;left:-9999px}
+[hidden]{display:none!important}
+.sent{justify-items:center;text-align:center;padding-block:4rem}
+.sent p{color:var(--muted);max-width:26rem}
+.sent a{color:var(--text);font-weight:700;white-space:nowrap}
+.sent-mark{display:grid;place-items:center;width:68px;height:68px;border-radius:50%;background:var(--lime);color:#081004;font-size:2rem;font-weight:800}
+.reset{min-height:44px;border:0;background:none;color:var(--lime2);font:800 1rem Jakarta,system-ui,sans-serif;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.status:empty{display:none}
+.captcha{min-height:78px}
+@media (max-width:379px){.nav{gap:.4rem;padding-left:.7rem}.nav .brand img{width:72px}.lang a{min-width:38px}.dock a{font-size:.85rem;gap:.25rem}.captcha{scale:.85;transform-origin:left}}
+.status{font-weight:700;color:var(--lime2)}.status.error{color:#ffb4a8}
+
+.promo{padding:3rem 0}
+.promo-card{display:flex;flex-wrap:wrap;align-items:center;gap:1.25rem;padding:1.4rem 1.6rem;border-radius:var(--radius);border:1px solid #7aa2ff3d;background:linear-gradient(110deg,#0f1830,#0c1118 60%);text-decoration:none;transition:border-color .2s}
+.promo-card:hover{border-color:#7aa2ffaa}
+.promo-mark{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#7aa2ff1f;color:#a9c2ff;font:800 1rem ui-monospace,monospace}
+.promo-text{flex:1 1 280px;display:grid;line-height:1.45}
+.promo-text small{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#8e9bb8;font-weight:700}
+.promo-text>span{color:#aab4c8;font-size:.93rem}
+.promo-cta{padding:.7rem 1.2rem;border-radius:999px;background:#a9c2ff;color:#0a1020;font-weight:800;font-size:.92rem}
+
+footer{border-top:1px solid var(--line);padding:3rem 0 2rem;color:var(--muted);font-size:.95rem}
+.foot{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between;padding-bottom:2rem}
+.foot img{width:180px}
+.foot a{color:var(--text);font-weight:700}
+.foot .social{display:inline-flex;align-items:center;gap:.4rem;padding-block:.5rem}
+.foot-base{display:flex;flex-wrap:wrap;gap:.5rem 2rem;justify-content:space-between;border-top:1px solid var(--line);padding-top:1.5rem;font-size:.88rem}
+.credit{color:var(--lime2);font-weight:800;text-decoration:none;padding:.35rem 0}.credit:hover{text-decoration:underline}
+
+.dock{position:fixed;z-index:20;inset:auto 10px calc(10px + env(safe-area-inset-bottom)) 10px;display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:6px;padding:6px;border:1px solid var(--line);border-radius:999px;background:#070b07e0;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:translate .25s,visibility .25s}
+.dock a{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:48px;border-radius:999px;font-weight:800;font-size:.95rem;text-decoration:none;background:#ffffff0f}
+.dock .primary{background:var(--lime);color:#081004}
+.dock.hide{translate:0 150%;visibility:hidden}
+
+.thanks{min-height:100svh;display:grid;place-content:center;justify-items:center;text-align:center;gap:1.25rem;padding:2rem}
+.thanks img{width:min(340px,80%)}
+
+@media (max-width:759px){.hero-logo{width:min(290px,76%)}footer{padding-bottom:6.5rem}.nav .btn span{display:none}.nav .btn{width:44px;padding:0}.hero{padding-top:calc(var(--nav) + 1.5rem)}}
+@media (min-width:760px){
+  .nav .brand img{width:104px}
+  .cards,.row,.compare,.areas{grid-template-columns:1fr 1fr}
+  .areas{grid-template-columns:2fr 1fr}
+  .prices{grid-template-columns:repeat(3,1fr);gap:1rem}
+  .price{padding:1.4rem}
+  .gallery{grid-template-columns:repeat(4,1fr);grid-auto-rows:200px}
+  .gallery .wide{grid-column:span 1;grid-row:span 2}
+  .dock{display:none}
+}
+@media (min-width:960px){
+  .nav>nav{display:flex}
+  .menu{display:none}
+  .hero-grid{grid-template-columns:1.1fr .9fr}
+  .hero-logo{order:0;width:100%}
+  .about,.contact{grid-template-columns:1fr 1.15fr;gap:4rem}
+}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+    @keyframes rise{from{opacity:0;translate:0 36px}}
+  }
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
 <script src="/main.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://sebaspros.com/#business","name":"Sebas Pros Lawn Care","alternateName":"Sebas Pros","url":"https://sebaspros.com/","telephone":"+15743605040","sameAs":["https://www.facebook.com/profile.php?id=61596584897221"],"description":"Limpieza de hojas y cuidado del c\u00e9sped profesional y econ\u00f3mico en South Bend y Michiana. Corte desde $40. Estimados gratis: 574-360-5040.","image":"https://sebaspros.com/share-es.jpg","logo":"https://sebaspros.com/img/logo-640.png","areaServed":[{"@type":"City","name":"South Bend, IN"},{"@type":"City","name":"Mishawaka, IN"},{"@type":"City","name":"Granger, IN"},{"@type":"City","name":"Osceola, IN"},{"@type":"City","name":"Notre Dame, IN"},{"@type":"City","name":"Roseland, IN"},{"@type":"City","name":"Elkhart, IN"},{"@type":"City","name":"Dunlap, IN"},{"@type":"City","name":"Goshen, IN"},{"@type":"City","name":"Bristol, IN"},{"@type":"City","name":"Middlebury, IN"},{"@type":"City","name":"Wakarusa, IN"},{"@type":"City","name":"Nappanee, IN"},{"@type":"City","name":"Bremen, IN"},{"@type":"City","name":"Lakeville, IN"},{"@type":"City","name":"North Liberty, IN"},{"@type":"City","name":"Walkerton, IN"},{"@type":"City","name":"New Carlisle, IN"},{"@type":"City","name":"Plymouth, IN"},{"@type":"City","name":"La Porte, IN"},{"@type":"City","name":"Michigan City, IN"},{"@type":"City","name":"Niles, MI"},{"@type":"City","name":"Buchanan, MI"},{"@type":"City","name":"Edwardsburg, MI"},{"@type":"City","name":"Cassopolis, MI"},{"@type":"City","name":"Dowagiac, MI"},{"@type":"City","name":"Berrien Springs, MI"},{"@type":"City","name":"Three Oaks, MI"},{"@type":"City","name":"New Buffalo, MI"},{"@type":"City","name":"St. Joseph, MI"},{"@type":"City","name":"Benton Harbor, MI"},{"@type":"Place","name":"Michiana"}],"knowsAbout":["Leaf cleanups","Leaf blowing and piling to the curb","Leaf removal and hauling","Full-service fall cleanups","Lawn mowing","Weed trimming / weed wacking","Lawn edging","Bush trimming","General yard cleanups"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios de c\u00e9sped y hojas","itemListElement":[{"@type":"OfferCatalog","name":"Servicios de hojas","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Limpieza de hojas","description":"Quitamos las hojas del c\u00e9sped, jardineras y caminos."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Soplado de hojas hasta la acera","description":"Montones ordenados junto a la calle, listos para la recolecci\u00f3n."},"priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","minPrice":60}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Retiro y acarreo de hojas","description":"Las recogemos y nos las llevamos."},"priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","minPrice":80}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Limpieza completa de oto\u00f1o","description":"Todo el patio listo para el invierno."}}]},{"@type":"OfferCatalog","name":"Cuidado del c\u00e9sped","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Corte de c\u00e9sped","description":"Un corte limpio y parejo."},"priceSpecification":{"@type":"PriceSpecification","priceCurrency":"USD","minPrice":40}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Desmalezado con orilladora","description":"Orillas limpias en cercas, postes, \u00e1rboles y cimientos."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Perfilado de bordes","description":"Bordes definidos junto a entradas y banquetas."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Poda de arbustos","description":"Arbustos recortados y con buena forma."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Limpieza general de patios","description":"Retiramos ramas, escombros y maleza."}}]}]},"contactPoint":{"@type":"ContactPoint","telephone":"+15743605040","contactType":"Estimados gratis"}},{"@type":"WebSite","@id":"https://sebaspros.com/#website","url":"https://sebaspros.com/","name":"Sebas Pros Lawn Care","publisher":{"@id":"https://sebaspros.com/#business"}},{"@type":"FAQPage","@id":"https://sebaspros.com/es/#faq","inLanguage":"es","mainEntity":[{"@type":"Question","name":"\u00bfLos estimados son gratis?","acceptedAnswer":{"@type":"Answer","text":"S\u00ed. Los estimados siempre son gratis. Llame o env\u00ede un mensaje al 574-360-5040, o use el formulario de esta p\u00e1gina."}},{"@type":"Question","name":"\u00bfQu\u00e9 servicios ofrece Sebas Pros?","acceptedAnswer":{"@type":"Answer","text":"Limpieza de hojas, soplado de hojas hasta la acera, retiro y acarreo de hojas, limpieza completa de oto\u00f1o, corte de c\u00e9sped, desmalezado, perfilado de bordes, poda de arbustos y limpieza general de patios."}},{"@type":"Question","name":"\u00bfCu\u00e1nto cuestan el corte de c\u00e9sped y la limpieza de hojas?","acceptedAnswer":{"@type":"Answer","text":"Precios iniciales. Corte de c\u00e9sped: patios peque\u00f1os $40+, patios medianos $50+, patios grandes $65+. Soplado de hojas: patios peque\u00f1os $60+, patios medianos $100+, patios grandes $150+, patios muy grandes $200\u2013$500+. Retiro de hojas: todos los tama\u00f1os $80+. Los estimados son gratis."}},{"@type":"Question","name":"\u00bfSe llevan las hojas o solo las amontonan en la acera?","acceptedAnswer":{"@type":"Answer","text":"Las dos cosas. Puede elegir montones en la acera para la recolecci\u00f3n municipal o que nos llevemos las hojas."}},{"@type":"Question","name":"\u00bfQu\u00e9 zonas atienden?","acceptedAnswer":{"@type":"Answer","text":"South Bend, Indiana, y sus alrededores en Michiana, incluidos Mishawaka, Granger, Osceola, Elkhart, Goshen y otros pueblos del norte de Indiana, adem\u00e1s de Niles, Buchanan, Edwardsburg y otras comunidades del suroeste de Michigan. Si no ve su ciudad, preg\u00fantenos."}},{"@type":"Question","name":"\u00bfC\u00f3mo pido una cotizaci\u00f3n?","acceptedAnswer":{"@type":"Answer","text":"D\u00edganos su ciudad y lo que necesita su patio en el formulario, o llame o env\u00ede un mensaje al 574-360-5040."}}]}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 <header class="nav">
-  <a class="brand" href="#top" aria-label="Inicio de Sebas Pros Lawn Care"><img src="/img/logo-360.webp" alt="" width="360" height="189"></a>
+  <a class="brand" href="#top" aria-label="Inicio de Sebas Pros Lawn Care"><picture><source type="image/avif" srcset="/img/logo-240.avif"><img src="/img/logo-240.webp" alt="" width="240" height="126"></picture></a>
   <nav aria-label="Principal"><a href="#services">Servicios</a><a href="#pricing">Precios</a><a href="#work">Trabajos</a><a href="#areas">Zonas</a><a href="#faq">Preguntas</a></nav>
-  <div class="lang" role="group" aria-label="Selector de idioma"><a href="/" hreflang="en" lang="en" aria-label="English">EN</a><span aria-hidden="true">|</span><a href="/es/" hreflang="es" lang="es" aria-label="Español" class="active" aria-current="true">ES</a></div>
-  <a class="btn btn-sm" href="tel:+15743605040"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg><span>574-360-5040</span></a>
+  <details class="menu"><summary aria-label="Menú"><span></span></summary><nav aria-label="Menú"><a href="#services">Servicios</a><a href="#pricing">Precios</a><a href="#work">Trabajos</a><a href="#areas">Zonas</a><a href="#faq">Preguntas</a></nav></details>
+  <div class="lang" role="group" aria-label="Selector de idioma"><a href="/" hreflang="en" lang="en" aria-label="EN, English">EN</a><span aria-hidden="true">|</span><a href="/es/" hreflang="es" lang="es" aria-label="ES, Español" class="active" aria-current="true">ES</a></div>
+  <a class="btn btn-sm" href="tel:+15743605040" aria-label="Llame al 574-360-5040"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg><span>574-360-5040</span></a>
 </header>
 
 <main id="main">
 <section class="hero" id="top">
-  <picture class="hero-bg"><source type="image/avif" srcset="/img/hero-640.avif 640w, /img/hero-1024.avif 1024w, /img/hero-1600.avif 1600w, /img/hero-2048.avif 2048w" sizes="100vw"><source type="image/webp" srcset="/img/hero-640.webp 640w, /img/hero-1024.webp 1024w, /img/hero-1600.webp 1600w, /img/hero-2048.webp 2048w" sizes="100vw"><img src="/img/hero-2048.webp" alt="Patio recién cortado con árboles grandes en un vecindario de Michiana en un día soleado de otoño" width="2048" height="1536" fetchpriority="high"></picture>
+  <picture class="hero-bg">
+    <source media="(max-width: 759px)" type="image/avif" srcset="/img/hero-m-640.avif 640w, /img/hero-m-900.avif 900w" sizes="100vw">
+    <source media="(max-width: 759px)" type="image/webp" srcset="/img/hero-m-640.webp 640w, /img/hero-m-900.webp 900w" sizes="100vw">
+    <source type="image/avif" srcset="/img/hero-640.avif 640w, /img/hero-1024.avif 1024w, /img/hero-1600.avif 1600w, /img/hero-2048.avif 2048w" sizes="100vw">
+    <source type="image/webp" srcset="/img/hero-640.webp 640w, /img/hero-1024.webp 1024w, /img/hero-1600.webp 1600w, /img/hero-2048.webp 2048w" sizes="100vw">
+    <img src="/img/hero-1600.webp" alt="Patio recién cortado con árboles grandes en un vecindario de Michiana en un día soleado de otoño" width="2048" height="1536" fetchpriority="high">
+  </picture>
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow"><span class="dot"></span>Agendando limpiezas de hojas de otoño</p>
+      <p class="eyebrow"><span class="dot"></span>Agendando en South Bend y Michiana</p>
       <h1>Limpieza de hojas y césped en <em>South Bend</em></h1>
       <p class="lead">Limpieza de hojas profesional y económica, además de corte de césped, desmalezado, perfilado de bordes y poda de arbustos. Servimos South Bend, Mishawaka, Elkhart y los pueblos cercanos de Michiana.</p>
       <div class="actions">
@@ -62,7 +261,7 @@
       </div>
       <ul class="ticks"><li>Estimados gratis</li><li>Negocio local</li><li>Retiro de hojas disponible</li></ul>
     </div>
-    <img class="hero-logo" src="/img/logo-960.webp" srcset="/img/logo-640.webp 640w, /img/logo-960.webp 960w" sizes="(min-width: 960px) 480px, 80vw" alt="Logotipo de Sebas Pros Lawn Care" width="960" height="504">
+    <picture class="hero-logo"><source type="image/avif" srcset="/img/logo-240.avif 240w, /img/logo-360.avif 360w, /img/logo-640.avif 640w, /img/logo-960.avif 960w" sizes="(min-width: 960px) 480px, 290px"><img src="/img/logo-640.webp" srcset="/img/logo-240.webp 240w, /img/logo-360.webp 360w, /img/logo-640.webp 640w, /img/logo-960.webp 960w" sizes="(min-width: 960px) 480px, 290px" alt="Logotipo de Sebas Pros Lawn Care" width="960" height="504" fetchpriority="high"></picture>
   </div>
 </section>
 
@@ -192,7 +391,7 @@
       </div>
       <fieldset><legend>¿Qué necesita?</legend><div class="chips"><label class="chip"><input type="checkbox" name="services[]" value="Leaf cleanups"><span>Limpieza de hojas</span></label><label class="chip"><input type="checkbox" name="services[]" value="Leaf blowing and piling to the curb"><span>Soplado de hojas hasta la acera</span></label><label class="chip"><input type="checkbox" name="services[]" value="Leaf removal and hauling"><span>Retiro y acarreo de hojas</span></label><label class="chip"><input type="checkbox" name="services[]" value="Full-service fall cleanups"><span>Limpieza completa de otoño</span></label><label class="chip"><input type="checkbox" name="services[]" value="Lawn mowing"><span>Corte de césped</span></label><label class="chip"><input type="checkbox" name="services[]" value="Weed trimming / weed wacking"><span>Desmalezado con orilladora</span></label><label class="chip"><input type="checkbox" name="services[]" value="Lawn edging"><span>Perfilado de bordes</span></label><label class="chip"><input type="checkbox" name="services[]" value="Bush trimming"><span>Poda de arbustos</span></label><label class="chip"><input type="checkbox" name="services[]" value="General yard cleanups"><span>Limpieza general de patios</span></label><label class="chip"><input type="checkbox" name="services[]" value="Other"><span>Otro</span></label></div></fieldset>
       <label><span>¿Algo más? <small>(opcional)</small></span><textarea name="message" rows="4" maxlength="2000"></textarea></label>
-      <div class="captcha" data-netlify-recaptcha="true"></div>
+      <div class="captcha"><template><div data-netlify-recaptcha="true"></div></template></div>
       <button class="btn" type="submit">Pedir mi estimado gratis</button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
@@ -219,7 +418,7 @@
 
 <footer>
   <div class="wrap foot">
-    <img src="/img/logo-360.webp" alt="Sebas Pros Lawn Care" width="360" height="189" loading="lazy">
+    <picture><source type="image/avif" srcset="/img/logo-360.avif"><img src="/img/logo-360.webp" alt="Sebas Pros Lawn Care" width="360" height="189" loading="lazy"></picture>
     <p>Limpieza de hojas y cuidado del césped en toda el área de Michiana.<br>Estimados gratis: <a href="tel:+15743605040">574-360-5040</a><br><a class="social" href="https://www.facebook.com/profile.php?id=61596584897221" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h-2a4 4 0 0 0-4 4v3H6v4h3v7h4v-7h3l1-4h-4V7.5A.5.5 0 0 1 13.5 7H16V3Z"/></svg>Síganos en Facebook</a></p>
   </div>
   <div class="wrap foot-base">

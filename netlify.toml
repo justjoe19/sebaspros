@@ -1,6 +1,13 @@
 [build]
   publish = "public"
 
+# One address for the site: send the netlify.app copy to the real domain
+[[redirects]]
+  from = "https://sebaspros.netlify.app/*"
+  to = "https://sebaspros.com/:splat"
+  status = 301
+  force = true
+
 # Spanish "page not found" for missing addresses under /es/
 [[redirects]]
   from = "/es/*"
