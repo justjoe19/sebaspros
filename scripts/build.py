@@ -6,14 +6,14 @@ The output is committed, so Netlify needs no build step.
 """
 import json, html, datetime, pathlib
 
-SITE = "https://sebaspros.netlify.app"   # change here if a .com is added
+SITE = "https://sebaspros.com"
 NAME = "Sebas Pros Lawn Care"
 PHONE = "574-360-5040"
 TEL = "+15743605040"
 FACEBOOK = "https://www.facebook.com/profile.php?id=61596584897221"
-TITLE = "Lawn Care & Leaf Cleanup in Michiana | Sebas Pros"
-DESC = ("Sebas Pros Lawn Care offers leaf cleanup, leaf hauling, mowing, edging, trimming and yard "
-        "cleanups in South Bend, Mishawaka, Elkhart and Michiana. Free estimates: 574-360-5040.")
+TITLE = "Leaf Cleanup & Lawn Care in South Bend, IN | Sebas Pros"
+DESC = ("Professional, affordable leaf cleanups and lawn care in South Bend, Indiana, and surrounding "
+        "Michiana towns. Free estimates: call or text 574-360-5040.")
 
 SERVICES = [
     ("leaf", "Leaf Services", "Fall is busy. Hand off the raking and get your yard back.", [
@@ -49,7 +49,7 @@ FAQS = [
     ("Do you haul leaves away, or only pile them at the curb?",
      "Both. Choose curbside piles for municipal pickup, or have the leaves removed and hauled away."),
     ("What areas do you serve?",
-     "The Michiana area, including South Bend, Mishawaka, Granger, Osceola, Elkhart, Goshen and nearby "
+     "South Bend, Indiana, and surrounding areas across Michiana, including Mishawaka, Granger, Osceola, Elkhart, Goshen and nearby "
      "towns in Northern Indiana, plus Niles, Buchanan, Edwardsburg and other Southwest Michigan "
      "communities. If you don't see your town, just ask."),
     ("How do I get a quote?",
@@ -122,7 +122,7 @@ page = f'''<!doctype html>
 <link rel="canonical" href="{SITE}/">
 <meta name="theme-color" content="#050805">
 <meta name="geo.region" content="US-IN">
-<meta name="geo.placename" content="Michiana">
+<meta name="geo.placename" content="South Bend, Indiana">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="{NAME}">
@@ -157,8 +157,8 @@ page = f'''<!doctype html>
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow"><span class="dot"></span>Now booking fall leaf cleanups</p>
-      <h1>Lawn care &amp; leaf cleanup in <em>Michiana</em></h1>
-      <p class="lead">Mowing, edging, trimming and full fall cleanups from a local business that shows up ready to work. Serving South Bend, Mishawaka, Elkhart and the towns around them.</p>
+      <h1>Leaf cleanup &amp; lawn care in <em>South Bend</em></h1>
+      <p class="lead">Professional, affordable leaf cleanups, plus mowing, weed trimming, edging and bush trimming. Serving South Bend, Mishawaka, Elkhart and surrounding Michiana towns.</p>
       <div class="actions">
         <a class="btn" href="#contact">Get a free estimate</a>
         <a class="btn btn-ghost" href="tel:{TEL}">{ICON["phone"]}Call {PHONE}</a>
@@ -200,7 +200,8 @@ page = f'''<!doctype html>
     <div class="reveal">
       <p class="kicker">About</p>
       <h2>Local, hardworking and easy to reach</h2>
-      <p>Sebas Pros Lawn Care is a Michiana business started by Sebastian. When you hire Sebas Pros, you are supporting a local entrepreneur who is building the company one yard at a time.</p>
+      <p>Sebas Pros Lawn Care specializes in professional and affordable leaf cleanups in South Bend, Indiana, and surrounding areas. We help keep your yard looking clean and beautiful by blowing leaves into piles and moving them to the curb. We also offer lawn mowing, weed trimming, edging and bush trimming.</p>
+      <p>Our goal is to provide reliable service, quality work, and leave every yard looking its best. Sebastian started the business, so when you hire Sebas Pros you are supporting a local entrepreneur.</p>
     </div>
     <ol class="steps">
       <li class="reveal"><h3>Reach out</h3><p>Call, text or send the form with your town and what you need.</p></li>
@@ -214,7 +215,7 @@ page = f'''<!doctype html>
   <div class="wrap">
     <p class="kicker">Service Area</p>
     <h2>Serving the Michiana area</h2>
-    <p class="intro">{NAME} provides leaf cleanup and lawn care for homes across Northern Indiana and Southwest Michigan. Don't see your town? Ask anyway.</p>
+    <p class="intro">Based in the South Bend area, {NAME} provides leaf cleanup and lawn care for homes across Northern Indiana and Southwest Michigan. Don't see your town? Ask anyway.</p>
     <div class="areas">{area_blocks}
     </div>
   </div>

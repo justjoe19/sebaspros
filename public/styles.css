@@ -69,7 +69,7 @@ figcaption.after{background:var(--lime);color:#081004}
 .gallery .tall{grid-row:span 2}.gallery .wide{grid-column:span 2;grid-row:span 2}
 
 .about{display:grid;gap:2.5rem;align-items:center}
-.about p{color:var(--muted)}
+.about p{color:var(--muted)}.about p+p{margin-top:1rem}
 .steps{list-style:none;counter-reset:s;display:grid;gap:1rem}
 .steps li{counter-increment:s;position:relative;padding:1.3rem 1.3rem 1.3rem 5rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
 .steps li::before{content:counter(s);position:absolute;left:1.3rem;top:1.3rem;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:2px solid var(--lime);color:var(--lime2);font-weight:800}
